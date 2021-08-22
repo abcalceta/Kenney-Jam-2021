@@ -7,8 +7,8 @@ extends Node2D
 export(Array, PackedScene) var gemTypes
 export(PackedScene) var validSpaceScene
 var gemArray = []
-var cols = 3
-var rows = 3
+var cols = 5
+var rows = 10
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	spawnGems(cols,rows)
@@ -17,9 +17,6 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	for gem in get_tree().get_nodes_in_group("Gems"):
-		gem.position = gem.positionOnBoard*50
-		
 	if Input.is_action_just_pressed("ui_accept"):
 		printArray()
 	pass
@@ -50,7 +47,34 @@ func _on_SelectorSquare_clockwiseTurn(gem):
 	print(center)
 	gemArray[center.x][center.y].get_node("Sprite").modulate = Color("#000000")
 	
-	#animateGemMovementClockwise(center)
+	animateGemMovementClockwise(center)
+	
+	var firstGem = gemArray[center.x][center.y+1]
+	var firstPos = gemArray[center.x][center.y+1].positionOnBoard
+	firstGem.modulate = Color("#00FF00")
+	
+	var posHolder = gemMoveBoardPos([center.x, center.y+1], [center.x+1, center.y+1], firstPos)
+	print("pos", posHolder)
+	print("fpos", firstPos)
+	posHolder = gemMoveBoardPos([center.x+1, center.y+1], [center.x+1, center.y], posHolder)
+	posHolder = gemMoveBoardPos([center.x+1, center.y], [center.x+1, center.y-1], posHolder)
+	posHolder = gemMoveBoardPos([center.x+1, center.y-1], [center.x, center.y-1], posHolder)
+	posHolder = gemMoveBoardPos([center.x, center.y-1], [center.x-1, center.y-1], posHolder)
+	posHolder = gemMoveBoardPos([center.x-1, center.y-1], [center.x-1, center.y], posHolder)
+	posHolder = gemMoveBoardPos([center.x-1, center.y], [center.x-1, center.y+1], posHolder)
+	posHolder = gemMoveBoardPos([center.x-1, center.y+1], [center.x, center.y+1], posHolder, firstGem)
+	
+	
+	
+	pass # Replace with function body.
+
+
+func _on_SelectorSquare_counterClockwiseTurn(gem):
+	var center = gem.positionOnBoard 
+	print(center)
+	gemArray[center.x][center.y].get_node("Sprite").modulate = Color("#000000")
+	
+	animateGemMovementCounterClockwise(center)
 	
 	var firstGem = gemArray[center.x+1][center.y+1]
 	var firstPos = gemArray[center.x+1][center.y+1].positionOnBoard
@@ -67,13 +91,10 @@ func _on_SelectorSquare_clockwiseTurn(gem):
 	posHolder = gemMoveBoardPos([center.x+1, center.y-1], [center.x+1, center.y], posHolder)
 	posHolder = gemMoveBoardPos([center.x+1, center.y], [center.x+1, center.y+1], posHolder, firstGem)
 	
-	
-	#gemArray[center.x-1][center.y+1].positionOnBoard = firstPos
-	
-	####
-	
-	
 	pass # Replace with function body.
+
+
+
 
 func gemMoveBoardPos(aGem, bGem, newPosition = null, altB = null):
 	#gemArray[aGem[0]][aGem[1]].modulate = Color("#FF0000")
@@ -99,13 +120,14 @@ func animateGemMovementClockwise(center):
 	return
 	
 func animateGemMovementCounterClockwise(center):
-	gemArray[center.x-1][center.y-1].moveTo(gemArray[center.x][center.y-1].position)
-	gemArray[center.x+1][center.y-1].moveTo(gemArray[center.x][center.y-1].position)
-	gemArray[center.x+1][center.y].moveTo(gemArray[center.x+1][center.y-1].position)
-	gemArray[center.x+1][center.y+1].moveTo(gemArray[center.x+1][center.y].position)
 	gemArray[center.x][center.y+1].moveTo(gemArray[center.x+1][center.y+1].position)
 	gemArray[center.x-1][center.y+1].moveTo(gemArray[center.x][center.y+1].position)
-	gemArray[center.x-1][center.y].moveTo(gemArray[center.x-1][center.y+1].position)
+	gemArray[center.x-1][center.y].moveTo(gemArray[center.x-1][center.y+1].position) 
+	gemArray[center.x-1][center.y-1].moveTo(gemArray[center.x-1][center.y].position) 
+	gemArray[center.x][center.y-1].moveTo(gemArray[center.x-1][center.y-1].position)
+	gemArray[center.x+1][center.y-1].moveTo(gemArray[center.x][center.y-1].position)
+	gemArray[center.x+1][center.y].moveTo(gemArray[center.x+1][center.y-1].position)
+	gemArray[center.x+1][center.y+1].moveTo(gemArray[center.x+1][center.y].position) 
 	return
 
 func printArray():
@@ -115,6 +137,3 @@ func printArray():
 			row.append(gem.positionOnBoard)
 		print(row)
 
-
-func _on_SelectorSquare_counterClockwiseTurn(gem):
-	pass # Replace with function body.
