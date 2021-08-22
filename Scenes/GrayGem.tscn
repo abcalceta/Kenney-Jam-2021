@@ -1,10 +1,10 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Scenes/Gem.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Assets/element_green_diamond.png" type="Texture" id=2]
+[ext_resource path="res://Assets/element_grey_diamond.png" type="Texture" id=2]
 
-[node name="GreenGem" instance=ExtResource( 1 )]
-type = 3
+[node name="GrayGem" instance=ExtResource( 1 )]
+type = 5
 
 [node name="Sprite" parent="." index="0"]
 texture = ExtResource( 2 )

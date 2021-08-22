@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scripts/GemBoard.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Gem.tscn" type="PackedScene" id=2]
@@ -7,6 +7,8 @@
 [ext_resource path="res://Scenes/RedGem.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/SelectorSquare.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/ValidSpace.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scenes/GrayGem.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/PurpleGem.tscn" type="PackedScene" id=9]
 
 [node name="GemBoard" type="Node2D"]
 position = Vector2( 220.251, 166.312 )
@@ -14,7 +16,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_group_": true
 }
-gemTypes = [ ExtResource( 2 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 3 ) ]
+gemTypes = [ ExtResource( 2 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 3 ), ExtResource( 9 ), ExtResource( 8 ) ]
 validSpaceScene = ExtResource( 7 )
 
 [node name="SelectorSquare" parent="." instance=ExtResource( 6 )]

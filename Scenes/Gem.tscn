@@ -10,7 +10,8 @@ script = ExtResource( 2 )
 modulate = Color( 1, 1, 1, 0.607843 )
 texture = ExtResource( 1 )
 
-[node name="Label" type="Label" parent="."]
+[node name="ID" type="Label" parent="."]
+visible = false
 margin_left = -22.4746
 margin_top = -16.6687
 margin_right = 39.5254
@@ -21,6 +22,7 @@ __meta__ = {
 }
 
 [node name="Label2" type="Label" parent="."]
+visible = false
 margin_left = -23.9729
 margin_top = 2.24746
 margin_right = 38.0271

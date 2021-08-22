@@ -3,3 +3,4 @@
 [ext_resource path="res://Scenes/Gem.tscn" type="PackedScene" id=1]
 
 [node name="BlueGem" instance=ExtResource( 1 )]
+type = 0
