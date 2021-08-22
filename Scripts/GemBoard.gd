@@ -14,6 +14,7 @@ var gemSize = 50
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	spawnGems(rows, cols)
+	findMatches()
 	pass # Replace with function body.
 
 
@@ -39,6 +40,7 @@ func spawnGems(rows, cols):
 
 func spawnGem(x, y, idNum):
 	var tempGem = gemTypes[randi()%gemTypes.size()].instance()
+	tempGem.hide()
 	add_child(tempGem)
 	tempGem.position = Vector2(y*gemSize, x*gemSize)
 	tempGem.add_to_group("Gems")
@@ -48,10 +50,21 @@ func spawnGem(x, y, idNum):
 
 
 func findMatches():
+	var count = 0
 	var verticalMatches = findVerticalMatches()
-	clearMatches(verticalMatches)
+	count += clearMatches(verticalMatches)
 	var horizontalMatches = findHorizontalMatches()
-	clearMatches(horizontalMatches)
+	count += clearMatches(horizontalMatches)
+	return count
+	
+
+func _on_SelectorSquare_findMatchesClick():
+	var count = findMatches()
+	while count > 0:
+		count = findMatches()
+	pass # Replace with function body.
+
+	
 	
 func findVerticalMatches():
 	var currentType = -1
@@ -116,13 +129,16 @@ func findHorizontalMatches():
 	return confirmedMatches
 
 func clearMatches(matches):
+	var count = 0
 	for mat in matches:
+		count += 1
 		for m in mat:
-			m.hide()
+			m.hideSelf()
 			var gem = spawnGem(m.positionOnBoard.y,m.positionOnBoard.x,m.id)
 			gemArray[m.positionOnBoard.x][m.positionOnBoard.y] = gem
-			m.queue_free()
-	return
+			gem.hide()
+			#m.queue_free()
+	return count
 
 
 
@@ -131,6 +147,7 @@ func _on_SelectorSquare_clockwiseTurn(gem):
 	#print(center)
 	#gemArray[center.x][center.y].get_node("Sprite").modulate = Color("#000000")
 	
+	gemArray[center.x][center.y].centerAnimation()
 	animateGemMovementClockwise(center)
 	
 	var firstGem = gemArray[center.x][center.y+1]
@@ -218,4 +235,5 @@ func printArray():
 		for gem in i:
 			row.append(gem.positionOnBoard)
 		print(row)
+
 

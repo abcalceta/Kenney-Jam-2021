@@ -6,6 +6,7 @@ extends Node2D
 # var b = "text"
 signal clockwiseTurn
 signal counterClockwiseTurn
+signal findMatchesClick
 var closestGem = null
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -21,6 +22,7 @@ func _input(event):
 	if event is InputEventMouse:
 		$PosTween.start()
 	if event is InputEventMouseButton:
+		emit_signal("findMatchesClick")
 		if event.is_pressed() and closestGem != null:
 			if event.button_index == BUTTON_LEFT:
 				emit_signal("clockwiseTurn", closestGem)
