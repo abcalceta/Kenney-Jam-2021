@@ -21,7 +21,7 @@ func _input(event):
 	if event is InputEventMouse:
 		$PosTween.start()
 	if event is InputEventMouseButton:
-		if event.is_pressed():
+		if event.is_pressed() and closestGem != null:
 			if event.button_index == BUTTON_LEFT:
 				emit_signal("clockwiseTurn", closestGem)
 			if event.button_index == BUTTON_RIGHT:
@@ -29,7 +29,9 @@ func _input(event):
 
 func posTween():
 	var closestToMouse = getClosestToMouse()
-	closestGem = closestToMouse[0]
+	for gem in get_tree().get_nodes_in_group("Gems"):
+		if gem.positionOnBoard == closestToMouse[0].positionOnBoard:
+			closestGem = closestToMouse[0]
 	var snapPosition = closestToMouse[1]
 	$PosTween.interpolate_property(self, "position", position, snapPosition, 0.05, Tween.TRANS_SINE, Tween.EASE_IN, 0.0)
 
@@ -37,15 +39,15 @@ func getClosestToMouse():
 	var pos = Vector2.ZERO
 	var mousePos = get_global_mouse_position()
 	var smallestDistance = Vector2.INF
-	if get_tree().get_nodes_in_group("GemSelectorAreas").size()>0:
-		var smallestDistanceGem = get_tree().get_nodes_in_group("GemSelectorAreas")[0]
-		for gem in get_tree().get_nodes_in_group("GemSelectorAreas"):
-			if mousePos.distance_to(smallestDistanceGem.global_position) > mousePos.distance_to(gem.global_position):
-				smallestDistanceGem = gem
-				smallestDistance = mousePos.distance_to(gem.global_position)
+	if get_tree().get_nodes_in_group("ValidSpace").size()>0:
+		var smallestDistanceSpace = get_tree().get_nodes_in_group("ValidSpace")[0]
+		for space in get_tree().get_nodes_in_group("ValidSpace"):
+			if mousePos.distance_to(smallestDistanceSpace.global_position) > mousePos.distance_to(space.global_position):
+				smallestDistanceSpace = space
+				smallestDistance = mousePos.distance_to(space.global_position)
 				
-		pos = smallestDistanceGem.position
-		return [smallestDistanceGem, pos]
+		pos = smallestDistanceSpace.position
+		return [smallestDistanceSpace, pos]
 	else:
 		return [null, Vector2.ZERO]
 

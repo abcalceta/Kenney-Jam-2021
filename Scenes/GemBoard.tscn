@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scripts/GemBoard.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Gem.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Scenes/GreenGem.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/RedGem.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/SelectorSquare.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/ValidSpace.tscn" type="PackedScene" id=7]
 
 [node name="GemBoard" type="Node2D"]
 position = Vector2( 220.251, 166.312 )
@@ -14,6 +15,7 @@ __meta__ = {
 "_edit_group_": true
 }
 gemTypes = [ ExtResource( 2 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 3 ) ]
+validSpaceScene = ExtResource( 7 )
 
 [node name="SelectorSquare" parent="." instance=ExtResource( 6 )]
 
